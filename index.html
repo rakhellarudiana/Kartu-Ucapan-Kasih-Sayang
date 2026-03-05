@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCAPAN HARI KASIH SAYANG💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <audio id="bgm" src="audio/Enya - Caribbean Blue.mp3" loop autoplay></audio>
+  <div class="scene">
+    <div class="envelope-wrapper" onclick="toggleLetter()">
+    <div class="envelope-back"></div>
+    <div class="pocket">
+    <div class="letter">
+<div class="content-scroll">
+
+  <h1 id="title"></h1>
+  <p id="text1"></p>
+
+  <div class="gallery">
+    <div class="polaroid"><img src="img/1.webp"><span>Momen Kita💕</span></div>
+    <div class="polaroid"><img src="img/2.jpg"><span>Selalu Bersama💖</span></div>
+    <div class="polaroid"><img src="img/3.jpg"><span>Kita Selamanya🌹</span></div>
+  </div>
+
+</div>
+  </div>
+    </div>
+    <div class="flap"></div>
+      <div class="instruction"></div>
+    </div>
+  </div>
+    <script>
+        /* ================= ELEMENT ================= */
+        const wrapper = document.querySelector(".envelope-wrapper");
+        const audio = document.getElementById("bgm");
+        let isOpen = false;
+        let fadeInterval = null;
+        audio.volume = 0.5;
+        audio.loop = true;
+
+
+        /* ================= STARS ================= */
+        for(let i=0;i<120;i++){
+          const s=document.createElement("div");
+          s.className="star";
+          s.style.top=Math.random()*100+"vh";
+          s.style.left=Math.random()*100+"vw";
+          s.style.animationDuration=(2+Math.random()*3)+"s";
+          document.body.appendChild(s);
+        }
+
+        /* ================= PETALS ================= */
+        for(let i=0;i<25;i++){
+          const p=document.createElement("div");
+          p.className="petal";
+          p.style.left=Math.random()*100+"vw";
+          p.style.animationDuration=(5+Math.random()*5)+"s";
+          document.body.appendChild(p);
+        }
+
+        /* ================= OPEN / CLOSE LETTER ================= */
+        function toggleLetter(){
+          isOpen = !isOpen;
+          wrapper.classList.toggle("open");
+          if(isOpen){
+            playMusic();
+            startTyping();
+            heartExplosion();
+            createFloatingHearts();
+          }else{
+            stopMusic();
+          }
+        }
+
+        /* ================= MUSIC CONTROL ================= */
+        function playMusic(){
+          if(audio.paused){
+            audio.volume = 0;
+            audio.play().catch(()=>{});
+          }
+          clearInterval(fadeInterval);
+          fadeInterval = setInterval(()=>{
+            if(audio.volume < 0.5){
+              audio.volume += 0.02;
+            }else{
+              clearInterval(fadeInterval);
+            }
+          },100);
+        }
+        function stopMusic(){
+          clearInterval(fadeInterval);
+          audio.pause();
+          audio.currentTime = 0;
+          const progress=document.querySelector(".progress-bar");
+          if(progress){
+            progress.style.width="0%";
+          }
+        }
+
+        /* ================= TYPING EFFECT ================= */
+        function typeWriter(el,text,delay){
+          return new Promise(resolve=>{
+            el.style.opacity=1;
+            let i=0;
+            const int=setInterval(()=>{
+              if(i<text.length){
+                el.innerHTML+=text.charAt(i);
+                i++;
+              }else{
+                clearInterval(int);
+                resolve();
+              }
+            },delay);
+          });
+        }
+        async function startTyping(){
+          const title=document.getElementById("title");
+          const text1=document.getElementById("text1");
+          title.innerHTML="";
+          text1.innerHTML="";
+          await typeWriter(title,"",60);
+          await typeWriter(text1,"Aku mencintaimu hari ini, esok, dan selamanya.",35);
+        }
+
+        /* ================= HEART EXPLOSION ================= */
+        function heartExplosion(){
+          for(let i=0;i<25;i++){
+            const heart=document.createElement("div");
+            heart.className="heart";
+            const x=window.innerWidth/2;
+            const y=window.innerHeight/2;
+            heart.style.left=x+"px";
+            heart.style.top=y+"px";
+            document.body.appendChild(heart);
+            const angle=Math.random()*360;
+            const dist=100+Math.random()*200;
+            heart.animate([
+              {transform:"translate(0,0) rotate(45deg)",opacity:1},
+              {transform:`translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px) rotate(45deg)`,opacity:0}
+            ],{
+              duration:1200,
+              easing:"ease-out"
+            });
+            setTimeout(()=>heart.remove(),1200);
+          }
+        }
+
+        /* ================= FLOATING HEARTS ================= */
+        function createFloatingHearts(){
+          for(let i=0;i<120;i++){
+            const h=document.createElement("div");
+            h.className="floating-heart";
+            h.style.left=Math.random()*100+"vw";
+            h.style.bottom="-20px";
+            const size=6+Math.random()*12;
+            h.style.width=size+"px";
+            h.style.height=size+"px";
+            document.body.appendChild(h);
+            const duration=6+Math.random()*6;
+            h.animate([
+              {transform:"translateY(0) rotate(45deg)",opacity:.9},
+              {transform:`translateY(-120vh) rotate(${360+Math.random()*360}deg)`,opacity:0}
+            ],{
+              duration:duration*1000,
+              easing:"linear"
+            });
+            setTimeout(()=>h.remove(),duration*1000);
+          }
+        }
+
+        /* ================= SHOOTING STAR ================= */
+        function shootingStar(){
+          const star=document.createElement("div");
+          star.className="shooting-star";
+
+          star.style.top=Math.random()*40+"vh";
+          star.style.left="-100px";
+          document.body.appendChild(star);
+          star.animate([
+            {transform:"translateX(0) translateY(0) rotate(45deg)",opacity:1},
+            {transform:"translateX(120vw) translateY(40vh) rotate(45deg)",opacity:0}
+          ],{
+            duration:1200,
+            easing:"ease-out"
+          });
+          setTimeout(()=>star.remove(),1200);
+        }
+        setInterval(shootingStar,5000);
+
+        /* ================= PROGRESS BAR ================= */
+        const progress=document.querySelector(".progress-bar");
+        if(progress){
+          audio.addEventListener("timeupdate",()=>{
+            const percent=(audio.currentTime/audio.duration)*100;
+            progress.style.width=percent+"%";
+          });
+
+        }
+    </script>
+  </body>
+</html>
